@@ -1,0 +1,26 @@
+# Compiled executables
+*.exe
+*.out
+*.app
+
+# Object files
+*.o
+*.obj
+
+# CMake build directory
+build/
+cmake-build-*/
+
+# Visual Studio
+.vs/
+*.vcxproj
+*.vcxproj.*
+*.sln
+
+# IDEs
+.vscode/
+.idea/
+
+# Debug files
+*.pdb
+*.ilk
