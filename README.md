@@ -2,6 +2,64 @@
 
 A multiplayer maze game demonstrating DSM concepts with TCP networking, client-side prediction, and multiple consistency modes.
 
+## Quick Start
+
+### Prerequisites
+- **Windows**: MSYS2 with MinGW-w64 (UCRT64) or MSVC
+- **Required**: g++ compiler and ws2_32 library (Windows Sockets)
+
+### How to Run
+
+1. **Build the project**
+   ```bash
+   .\build.bat
+   ```
+   This compiles both `server.exe` and `client.exe`
+
+2. **Start the server** (in one terminal)
+   ```bash
+   .\server.exe
+   ```
+   You should see: `Server initialized on port 5000`
+
+3. **Start client(s)** (in separate terminals - up to 4 clients)
+   ```bash
+   .\client.exe
+   ```
+   
+4. **Choose consistency mode**
+   - Type `1` for **Sequential** (moves sent immediately)
+   - Type `2` for **Release** (moves buffered until ENTER)
+
+5. **Play the game**
+   - **Arrow Keys** or **WASD**: Move your player
+   - **ENTER**: Release buffered moves (Release mode only)
+   - **Q**: Quit
+
+### Example Session
+```bash
+# Terminal 1 - Server
+> .\server.exe
+Server initialized on port 5000
+Server running. Waiting for clients...
+Client connected. Assigned Player 0 (ID: 0)
+
+# Terminal 2 - Client 1
+> .\client.exe
+Select Consistency Mode:
+1. Sequential (immediate updates)
+2. Release (batch on ENTER)
+Choice: 1
+Connected to server
+Assigned Player ID: 0
+
+# Terminal 3 - Client 2
+> .\client.exe
+Choice: 2
+Connected to server
+Assigned Player ID: 1
+```
+
 ## Project Structure
 
 ```
@@ -15,7 +73,7 @@ A multiplayer maze game demonstrating DSM concepts with TCP networking, client-s
 
 ### Shared State (SharedState.h)
 - **Memory-aligned structs** using `#pragma pack(push, 1)`
-- **10x10 Unicode maze** with box-drawing characters
+- **10x10 ASCII maze** with simple border and wall characters
 - **Player struct**: id, x, y, isActive
 - **GameState struct**: grid[10][10] and 4 players
 
@@ -23,7 +81,7 @@ A multiplayer maze game demonstrating DSM concepts with TCP networking, client-s
 - **TCP Server** on port 5000
 - **Master copy** of GameState
 - **select() multiplexing** handles 2-4 clients without threads
-- **Move validation**: Rejects moves into walls (█)
+- **Move validation**: Rejects moves into walls (#)
 - **Broadcast**: Sends updated state to all clients after valid moves
 
 ### DSM Client (client.cpp)
@@ -32,29 +90,33 @@ A multiplayer maze game demonstrating DSM concepts with TCP networking, client-s
   - **Sequential**: Every move sent immediately
   - **Release**: Moves buffered, sent on ENTER key press
 - **Client-side prediction**: Move locally, snap back if server corrects
-- **ANSI rendering**: Smooth 60 FPS display with colored players
+- **Clean rendering**: Simple ASCII display with player numbers and positions
 
 ## Building
 
-### Using g++ (MinGW on Windows)
+### Windows with MSYS2 (Recommended)
 ```bash
-# Compile server
-g++ -o server.exe server.cpp -lws2_32
+# Easy build using provided script
+.\build.bat
 
-# Compile client
-g++ -o client.exe client.cpp -lws2_32
+# Or manually with g++
+g++ server.cpp -lws2_32 -o server.exe
+g++ client.cpp -lws2_32 -o client.exe
 ```
 
 ### Using MSVC (Visual Studio)
 ```bash
-# Compile server
 cl /EHsc server.cpp ws2_32.lib /Fe:server.exe
-
-# Compile client
 cl /EHsc client.cpp ws2_32.lib /Fe:client.exe
 ```
 
-## Running
+### Using CMake (Alternative)
+```bash
+cmake -S . -B build
+cmake --build build
+```
+
+## Running the Game
 
 ### 1. Start the Server
 ```bash
@@ -73,9 +135,32 @@ Choose consistency mode:
 - **2**: Release (buffered)
 
 ### 3. Play
-- **W/A/S/D**: Move up/left/down/right
+- **Arrow Keys** or **WASD**: Move up/left/down/right
 - **ENTER**: Release buffered moves (Release mode only)
 - **Q**: Quit
+
+### Game Display
+```
+=== DSM 2D Grid Game ===
+My Player ID: 0
+Controls: Arrow Keys or WASD to move, ENTER to release (Release mode), Q to quit
+
++ - - - - - - - - - + 
+| 0 # #       #     | 
+|   #   #   #   #   | 
+|       #       #   | 
+| # #   # # #       | 
+|               #   | 
+|   # # # # #   #   | 
+|                   | 
+| #   # # #   #     | 
++ - - - - - - - - - + 
+
+Active Players:
+Player 0 (ID 0): (1, 1) <- YOU
+```
+
+Players are shown as numbers (0, 1, 2, 3), walls are `#`, borders are `+|-`
 
 ## How It Works
 
@@ -123,7 +208,16 @@ Clients move immediately for responsive gameplay, but "snap back" if the server 
 
 **"Connection failed"**: Make sure server is running first
 **"Server full"**: Maximum 4 players connected
-**Walls render wrong**: Ensure terminal supports Unicode (UTF-8)
+**"Permission denied" during build**: Close any running server.exe or client.exe
+**Windows Defender blocks exe**: Add folder exclusion in Windows Security settings
 **Laggy movement**: Network latency - try localhost only
+
+## Notes
+
+- Server must be started before clients
+- Up to 4 players can connect simultaneously
+- Each player gets a unique starting position in the maze
+- Server validates all moves to prevent cheating
+- Clean shutdown with Q key, or Ctrl+C to force quit
 
 Enjoy your DSM maze game! 🎮
