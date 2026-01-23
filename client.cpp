@@ -228,7 +228,7 @@ public:
 
         std::cout << "=== DSM 2D Grid Game ===" << std::endl;
         std::cout << "My Player ID: " << myPlayerId << std::endl;
-        std::cout << "Controls: WASD to move, ENTER to release (Release mode), Q to quit" << std::endl;
+        std::cout << "Controls: Arrow Keys or WASD to move, ENTER to release (Release mode), Q to quit" << std::endl;
         std::cout << std::endl;
 
         // Render grid with spacing for clarity
@@ -300,17 +300,28 @@ int main() {
                 
                 int dx = 0, dy = 0;
                 
-                switch (key) {
-                    case 'w': case 'W': dy = -1; break;
-                    case 's': case 'S': dy = 1; break;
-                    case 'a': case 'A': dx = -1; break;
-                    case 'd': case 'D': dx = 1; break;
-                    case '\r': // ENTER key
-                        dsm.releaseUpdates();
-                        break;
-                    case 'q': case 'Q':
-                        running = false;
-                        break;
+                // Handle arrow keys (they send special codes on Windows)
+                if (key == 0 || key == -32) { // Special key prefix
+                    key = _getch(); // Get the actual arrow key code
+                    switch (key) {
+                        case 72: dy = -1; break; // Up arrow
+                        case 80: dy = 1; break;  // Down arrow
+                        case 75: dx = -1; break; // Left arrow
+                        case 77: dx = 1; break;  // Right arrow
+                    }
+                } else {
+                    switch (key) {
+                        case 'w': case 'W': dy = -1; break;
+                        case 's': case 'S': dy = 1; break;
+                        case 'a': case 'A': dx = -1; break;
+                        case 'd': case 'D': dx = 1; break;
+                        case '\r': // ENTER key
+                            dsm.releaseUpdates();
+                            break;
+                        case 'q': case 'Q':
+                            running = false;
+                            break;
+                    }
                 }
 
                 if (dx != 0 || dy != 0) {
