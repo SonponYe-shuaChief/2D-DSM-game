@@ -1,0 +1,3 @@
+@echo off
+echo Starting MSYS2 UCRT64 build...
+C:\msys64\msys2_shell.cmd -ucrt64 -defterm -here -no-start -c "g++ --version && echo '---' && g++ server.cpp -lws2_32 -o server.exe && g++ client.cpp -lws2_32 -o client.exe && ls -lh *.exe && echo 'Build complete!' && read -p 'Press Enter to continue...'"

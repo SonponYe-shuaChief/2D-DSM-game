@@ -1,12 +1,16 @@
 #include "SharedState.h"
 #include <iostream>
+
+// Minimize included Windows headers and keep winsock2 before windows.h to avoid winsock.h conflicts
+#define WIN32_LEAN_AND_MEAN
 #include <winsock2.h>
+#include <windows.h>
 #include <ws2tcpip.h>
 #include <conio.h>
 #include <vector>
 #include <cstring>
+#include <stdexcept>
 
-#pragma comment(lib, "ws2_32.lib")
 
 // Consistency modes
 enum ConsistencyMode {
@@ -216,7 +220,7 @@ public:
 class GameRenderer {
 public:
     static void clearScreen() {
-        std::cout << "\033[2J\033[H"; // ANSI clear screen and move cursor to top
+        system("cls"); // Clear screen for Windows
     }
 
     static void render(const GameState& state, int myPlayerId) {
@@ -227,7 +231,7 @@ public:
         std::cout << "Controls: WASD to move, ENTER to release (Release mode), Q to quit" << std::endl;
         std::cout << std::endl;
 
-        // Render grid
+        // Render grid with spacing for clarity
         for (int y = 0; y < 10; y++) {
             for (int x = 0; x < 10; x++) {
                 bool playerHere = false;
@@ -238,8 +242,8 @@ public:
                         state.players[p].x == x && 
                         state.players[p].y == y) {
                         
-                        // Render player with color
-                        std::cout << PLAYER_COLORS[p] << (char)('0' + p) << "\033[0m";
+                        // Render player with their number
+                        std::cout << (char)('0' + p) << " ";
                         playerHere = true;
                         break;
                     }
@@ -248,11 +252,7 @@ public:
                 if (!playerHere) {
                     // Render grid cell
                     char cell = state.grid[y][x];
-                    if (cell == '█') {
-                        std::cout << "\033[90m█\033[0m"; // Dark gray for walls
-                    } else {
-                        std::cout << cell;
-                    }
+                    std::cout << cell << " ";
                 }
             }
             std::cout << std::endl;
@@ -262,11 +262,11 @@ public:
         std::cout << "Active Players:" << std::endl;
         for (int i = 0; i < 4; i++) {
             if (state.players[i].isActive) {
-                std::cout << PLAYER_COLORS[i] << "Player " << i 
+                std::cout << "Player " << i 
                           << " (ID " << state.players[i].id << "): (" 
                           << state.players[i].x << ", " << state.players[i].y << ")"
                           << (state.players[i].id == myPlayerId ? " <- YOU" : "")
-                          << "\033[0m" << std::endl;
+                          << std::endl;
             }
         }
     }

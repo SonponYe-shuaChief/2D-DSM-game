@@ -1,11 +1,14 @@
 #include "SharedState.h"
 #include <iostream>
+
+// Keep winsock2 before windows.h and trim Windows headers
+#define WIN32_LEAN_AND_MEAN
 #include <winsock2.h>
+#include <windows.h>
 #include <ws2tcpip.h>
 #include <vector>
 #include <cstring>
 
-#pragma comment(lib, "ws2_32.lib")
 
 class AuthoritativeServer {
 private:
