@@ -58,6 +58,17 @@ private:
         // Check if position is a wall
         char cell = masterState.grid[y][x];
         return (cell == ' '); // Only spaces are walkable
+
+
+        //check if position is occupied by another player
+        for (int i = 0; i < 4; i++) {
+            if (masterState.players[i].isActive && 
+                masterState.players[i].x == x && 
+                masterState.players[i].y == y) {
+                return false;
+            }
+        }
+        return true;
     }
 
     void broadcastState() {
