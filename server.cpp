@@ -1,12 +1,25 @@
+// Shared game state definitions and structures
 #include "SharedState.h"
+
+// Console output for logging
 #include <iostream>
 
 // Keep winsock2 before windows.h and trim Windows headers
 #define WIN32_LEAN_AND_MEAN
+
+// Core Windows sockets API for network communication
 #include <winsock2.h>
+
+// Windows API functions
 #include <windows.h>
+
+// TCP/IP protocol definitions and utilities
 #include <ws2tcpip.h>
+
+// Dynamic array for managing multiple client connections
 #include <vector>
+
+// String manipulation functions (memset, etc.)
 #include <cstring>
 
 
