@@ -1,6 +1,18 @@
-# Distributed Shared Memory (DSM) 2D Grid Game
+# 2D DSM Game - Operating Systems Project
 
-A multiplayer maze game demonstrating DSM concepts with TCP networking, client-side prediction, and multiple consistency modes.
+A multiplayer maze game demonstrating Distributed Shared Memory (DSM) concepts with TCP networking, client-side prediction, and multiple consistency modes. This project is designed as an educational tool to visualize and understand OS principles including process synchronization, memory management, and distributed systems.
+
+## Project Overview
+
+This project fulfills the Operating Systems course requirements by implementing:
+1. **Technical Report** - Comprehensive documentation of design, implementation, and evaluation
+2. **Working Prototype** - Functional 2D game with DSM architecture
+3. **Presentation Materials** - Architecture diagrams and demonstration materials
+
+## Documentation
+
+- **[Architecture Document](architecture.md)** - Complete system design with UML diagrams
+- **[Technical Report Outline](technical_report_outline.md)** - 10-page report structure with all required sections
 
 ## Quick Start
 

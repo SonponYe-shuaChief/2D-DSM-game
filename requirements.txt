@@ -1,0 +1,21 @@
+# C++ Project - No Python dependencies required
+# This file is for documentation purposes
+
+# Build Tools Required:
+# - CMake (version 3.10 or higher)
+# - C++ Compiler (GCC 7+ or MSVC 2017+ or Clang 5+)
+# - Make or Ninja build system
+
+# Libraries (typically installed via system package manager):
+# - SDL2 (Simple DirectMedia Layer) for graphics/input
+# - pthread (POSIX threads) for threading
+# - Standard C++ Library (STL)
+
+# Windows (using vcpkg):
+# vcpkg install sdl2
+
+# Linux (Ubuntu/Debian):
+# sudo apt-get install libsdl2-dev cmake build-essential
+
+# macOS (using Homebrew):
+# brew install sdl2 cmake
