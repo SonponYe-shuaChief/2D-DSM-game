@@ -108,18 +108,18 @@ Main Game Process
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                  Virtual Address Space                   │
-│                                                           │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │   Shared     │  │   Player     │  │    Game      │  │
-│  │   Memory     │  │   Local      │  │   Assets     │  │
-│  │   Region     │  │   Memory     │  │   (Textures) │  │
-│  │              │  │              │  │              │  │
-│  │ - Game State │  │ - Input Buf  │  │ - Sprites    │  │
-│  │ - Entities   │  │ - Temp Data  │  │ - Sounds     │  │
-│  │ - Sync Vars  │  │              │  │              │  │
-│  └──────┬───────┘  └──────────────┘  └──────────────┘  │
-│         │                                                │
-└─────────┼────────────────────────────────────────────────┘
+│                                     │
+│  ┌──────────────┐  ┌──────────────┐ │
+│  │   Shared     │  │   Player     │ │
+│  │   Memory     │  │   Local      │ │
+│  │   Region     │  │   Memory     │ │
+│  │              │  │              │ │
+│  │ - Game State │  │ - Input Buf  │ │
+│  │ - Entities   │  │ - Temp Data  │ │
+│  │ - Sync Vars  │  │              │ │
+│  └──────┬───────┘  └──────────────┘ │
+│         │                           │
+└─────────┼───────────────────────────┘
           │
     ┌─────▼──────┐
     │  Page Table│
